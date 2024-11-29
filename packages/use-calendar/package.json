@@ -1,0 +1,57 @@
+{
+  "name": "@nwleedev/use-calendar",
+  "author": "Nowon Lee",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwleedev/use-calendar.git",
+    "directory": "packages/use-calendar"
+  },
+  "bugs": {
+    "url": "git+https://github.com/nwleedev/use-calendar.git/issues"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsup",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.12",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.11.0",
+    "tsup": "^8.3.5",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.11.0"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "keywords": [
+    "react",
+    "calendar",
+    "use calendar",
+    "calendar hooks",
+    "date library",
+    "calendar library"
+  ]
+}
