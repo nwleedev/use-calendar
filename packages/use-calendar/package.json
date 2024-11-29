@@ -25,7 +25,9 @@
     "build": "tsup",
     "lint": "eslint .",
     "preview": "vite preview",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "prepublish": "pnpm build",
+    "verify": "pnpm --stream run verify"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
