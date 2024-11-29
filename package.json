@@ -15,5 +15,16 @@
     "use calendar",
     "calendar hooks"
   ],
-  "author": "Nowon Lee"
+  "author": "Nowon Lee",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "prettier": "^3.4.1",
+    "prettier-config-standard": "^7.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pnpm prettier",
+      "pre-push": "pnpm verify"
+    }
+  }
 }
