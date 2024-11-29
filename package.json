@@ -1,0 +1,19 @@
+{
+  "name": "use-calendar",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "install:package": "pnpm --filter ./packages install",
+    "install:app": "pnpm --filter ./app install",
+    "dev:app": "pnpm --filter ./app dev",
+    "build:package": "pnpm --filter ./packages build",
+    "postinstall": "pnpm prepare"
+  },
+  "keywords": [
+    "react",
+    "tsup",
+    "use calendar",
+    "calendar hooks"
+  ],
+  "author": "Nowon Lee"
+}
