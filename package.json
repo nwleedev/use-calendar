@@ -25,5 +25,8 @@
       "pre-commit": "pnpm prettier",
       "pre-push": "pnpm verify"
     }
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.27.10"
   }
 }
