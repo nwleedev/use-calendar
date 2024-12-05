@@ -5,8 +5,11 @@
     "install:package": "pnpm --filter ./packages install",
     "install:app": "pnpm --filter ./app install",
     "dev:app": "pnpm --filter ./app dev",
-    "build:package": "pnpm --filter ./packages build",
-    "postinstall": "pnpm prepare"
+    "build:package": "pnpm --filter ./packages/* build",
+    "postinstall": "pnpm prepare",
+    "changeset": "changeset",
+    "publish:packages": "changeset publish",
+    "version:packages": "changeset version"
   },
   "keywords": [
     "react",
