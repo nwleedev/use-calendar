@@ -13,6 +13,9 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
   release:
     name: 🚀 Release
+    environment:
+      name: Action
+
     strategy:
       matrix:
         os: [ubuntu-latest]
