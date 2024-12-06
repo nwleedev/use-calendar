@@ -59,7 +59,7 @@ jobs:
 
       - name: 🧩 Install Dependencies
         id: install-dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: 🏗️ Build
         id: build-the-mono-repo
