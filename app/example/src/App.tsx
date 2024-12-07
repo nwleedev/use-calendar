@@ -4,7 +4,7 @@ import useCalendar, {
   useNow
 } from '@nwleedev/use-calendar'
 import { format, getWeek } from 'date-fns'
-import { ko } from 'date-fns/locale'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 import Days from './components/Days'
 import Decades from './components/Decades'
@@ -15,6 +15,8 @@ import {
   YearsHeader
 } from './components/headers'
 import Months from './components/Months'
+import { Button } from './components/ui/button'
+import { Checkbox } from './components/ui/checkbox'
 import Years from './components/Years'
 
 const App = () => {
@@ -38,12 +40,29 @@ const App = () => {
     defaultValue: now
   })
 
+  const formatted = format(selectedDate, 'MMMM dd, yyyy')
+  const text = `You selected ${formatted}`
+  const [isChecked, setIsChecked] = useState(false)
+
+  const weekText = `${'Week'} ${String(DateLibs.getWeekNumber(date)).padStart(2, '0')}`
+
   return (
-    <div className='flex flex-col items-center justify-center w-full h-full gap-y-4'>
-      <div className='max-w-[480px] flex flex-col w-full items-center'>
-        <h1 className='text-2xl'>{format(selectedDate, 'yyyy-MM-dd')}</h1>
+    <div className='flex flex-col items-center justify-center w-full h-full gap-y-6'>
+      <div className='max-w-[480px] flex flex-col w-full items-center gap-y-2'>
+        <div className='flex justify-start w-full'>
+          <h1 className='text-2xl'>{text}</h1>
+        </div>
+        <div className='flex items-center justify-end w-full gap-x-2'>
+          <Checkbox
+            checked={isChecked}
+            onCheckedChange={(checkedState) => {
+              setIsChecked(!!checkedState)
+            }}
+          />
+          <p>Show days not in current month</p>
+        </div>
       </div>
-      <div className='flex flex-col w-full gap-y-4 max-w-[480px] '>
+      <div className='flex flex-col w-full gap-y-4 max-w-[480px]'>
         <div className='flex flex-col w-full'>
           {stage === CalendarStage.DAYS && (
             <DaysHeader
@@ -107,6 +126,7 @@ const App = () => {
             onClick={(_event, day) => {
               setSelectedDate(day)
             }}
+            showOutside={isChecked}
           />
         )}
         {stage === CalendarStage.MONTHS && (
@@ -139,33 +159,30 @@ const App = () => {
       </div>
 
       <div className='flex flex-col gap-y-3 items-center w-full max-w-[480px]'>
-        <div className='flex justify-center w-full gap-x-2'>
-          <button
+        <div className='flex items-center justify-center w-full gap-x-2'>
+          <Button
             onClick={() => {
               const nextDate = getWeek(date)
               onWeekChange(nextDate - 1)
             }}
+            className='p-2 text-black bg-transparent rounded-full w-9 h-9 hover:text-white'
           >
-            {'<'}
-          </button>
-          <span>
-            {format(date, 'yyyy-MM') +
-              ' ' +
-              'Week ' +
-              String(DateLibs.getWeekNumber(date)).padStart(2, '0')}
-          </span>
-          <button
+            <ChevronLeft className='!w-6 !h-6' />
+          </Button>
+          <h2 className='text-lg font-semibold'>{weekText}</h2>
+          <Button
             onClick={() => {
               const nextDate = getWeek(date)
               onWeekChange(nextDate + 1)
             }}
+            className='p-2 text-black bg-transparent rounded-full w-9 h-9 hover:text-white'
           >
-            {'>'}
-          </button>
+            <ChevronRight className='!w-6 !h-6' />
+          </Button>
         </div>
         <div className='flex justify-center w-full gap-x-2'>
           {week.map((day) => {
-            const text = format(day, 'iii', { locale: ko })
+            const text = format(day, 'iii')
             return (
               <div key={text} className='flex justify-center w-full'>
                 <span>{text}</span>
@@ -177,9 +194,15 @@ const App = () => {
           {week.map((day) => {
             const text = format(day, 'dd')
             return (
-              <div className='flex justify-center w-full' key={text}>
+              <Button
+                className='flex justify-center w-full'
+                key={text}
+                onClick={() => {
+                  setSelectedDate(day)
+                }}
+              >
                 <span>{text}</span>
-              </div>
+              </Button>
             )
           })}
         </div>

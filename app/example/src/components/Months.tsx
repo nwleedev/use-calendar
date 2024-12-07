@@ -1,36 +1,34 @@
-import { format } from "date-fns";
-import { MouseEvent } from "react";
+import { format } from 'date-fns'
+import { MouseEvent } from 'react'
+import { Button } from './ui/button'
 
 export interface MonthsProps {
-  months: Date[];
-  calendarDate?: Date;
+  months: Date[]
+  calendarDate?: Date
 
-  onClick: (event: MouseEvent, month: Date) => unknown;
+  onClick: (event: MouseEvent, month: Date) => unknown
 }
 
 const Months = (props: MonthsProps) => {
-  const { months, onClick } = props;
+  const { months, onClick } = props
 
   return (
-    <div className="grid w-full grid-cols-4 gap-1">
+    <div className='grid w-full grid-cols-4 gap-x-3 gap-y-2'>
       {months.map((month) => {
         return (
-          <div
-            className="flex items-center justify-center w-full h-10"
-            key={month.getTime()}
+          <Button
+            onClick={(event) => {
+              onClick(event, month)
+            }}
+            key={month.getDate()}
+            className='flex items-center justify-center w-full h-12'
           >
-            <button
-              onClick={(event) => {
-                onClick(event, month);
-              }}
-            >
-              <span>{format(month, "yyyy-MM")}</span>
-            </button>
-          </div>
-        );
+            <span>{format(month, 'MMMM')}</span>
+          </Button>
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-export default Months;
+export default Months
