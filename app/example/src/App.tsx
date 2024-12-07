@@ -1,54 +1,61 @@
-import useCalendar, { CalendarStage, useNow } from "@nwleedev/use-calendar";
-import { format } from "date-fns";
-import { useState } from "react";
-import Days from "./components/Days";
-import Decades from "./components/Decades";
+import useCalendar, {
+  CalendarStage,
+  DateLibs,
+  useNow
+} from '@nwleedev/use-calendar'
+import { format, getWeek } from 'date-fns'
+import { ko } from 'date-fns/locale'
+import { useState } from 'react'
+import Days from './components/Days'
+import Decades from './components/Decades'
 import {
   DaysHeader,
   DecadesHeader,
   MonthsHeader,
-  YearsHeader,
-} from "./components/headers";
-import Months from "./components/Months";
-import Years from "./components/Years";
+  YearsHeader
+} from './components/headers'
+import Months from './components/Months'
+import Years from './components/Years'
 
 const App = () => {
-  const now = useNow();
-  const [selectedDate, setSelectedDate] = useState(now);
+  const now = useNow()
+  const [selectedDate, setSelectedDate] = useState(now)
   const {
     stage,
     date,
+    week,
     days,
     months,
     years,
     decades,
+    onWeekChange,
     onMonthChange,
     onYearChange,
     onDecadeChange,
     onCenturyChange,
-    onStageChange,
+    onStageChange
   } = useCalendar({
-    defaultValue: now,
-  });
+    defaultValue: now
+  })
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full gap-y-4">
-      <div className="max-w-[480px] flex flex-col w-full items-center">
-        <h1 className="text-2xl">{format(selectedDate, "yyyy-MM-dd")}</h1>
+    <div className='flex flex-col items-center justify-center w-full h-full gap-y-4'>
+      <div className='max-w-[480px] flex flex-col w-full items-center'>
+        <h1 className='text-2xl'>{format(selectedDate, 'yyyy-MM-dd')}</h1>
       </div>
-      <div className="flex flex-col w-full gap-y-4 max-w-[480px] ">
-        <div className="flex flex-col w-full">
+      <div className='flex flex-col w-full gap-y-4 max-w-[480px] '>
+        <div className='flex flex-col w-full'>
           {stage === CalendarStage.DAYS && (
             <DaysHeader
               calendarDate={date}
               onPrevClick={(_event, month) => {
-                onMonthChange(month);
+                onMonthChange(month)
               }}
               onNextClick={(_event, month) => {
-                onMonthChange(month);
+                onMonthChange(month)
               }}
               onMidClick={(_event, stage) => {
-                onStageChange(stage);
+                onStageChange(stage)
               }}
             />
           )}
@@ -56,13 +63,13 @@ const App = () => {
             <MonthsHeader
               calendarDate={date}
               onPrevClick={(_event, year) => {
-                onYearChange(year);
+                onYearChange(year)
               }}
               onNextClick={(_event, year) => {
-                onYearChange(year);
+                onYearChange(year)
               }}
               onMidClick={(_event, stage) => {
-                onStageChange(stage);
+                onStageChange(stage)
               }}
             />
           )}
@@ -70,13 +77,13 @@ const App = () => {
             <YearsHeader
               calendarDate={date}
               onPrevClick={(_event, year) => {
-                onDecadeChange(year);
+                onDecadeChange(year)
               }}
               onNextClick={(_event, year) => {
-                onDecadeChange(year);
+                onDecadeChange(year)
               }}
               onMidClick={(_event, stage) => {
-                onStageChange(stage);
+                onStageChange(stage)
               }}
             />
           )}
@@ -84,10 +91,10 @@ const App = () => {
             <DecadesHeader
               calendarDate={date}
               onPrevClick={(_event, year) => {
-                onCenturyChange(year);
+                onCenturyChange(year)
               }}
               onNextClick={(_event, year) => {
-                onCenturyChange(year);
+                onCenturyChange(year)
               }}
             />
           )}
@@ -98,7 +105,7 @@ const App = () => {
             days={days}
             calendarDate={date}
             onClick={(_event, day) => {
-              setSelectedDate(day);
+              setSelectedDate(day)
             }}
           />
         )}
@@ -106,8 +113,8 @@ const App = () => {
           <Months
             months={months}
             onClick={(_event, month) => {
-              onMonthChange(month.getMonth());
-              onStageChange(CalendarStage.DAYS);
+              onMonthChange(month.getMonth())
+              onStageChange(CalendarStage.DAYS)
             }}
           />
         )}
@@ -115,8 +122,8 @@ const App = () => {
           <Years
             years={years}
             onClick={(_event, year) => {
-              onYearChange(year.getFullYear());
-              onStageChange(CalendarStage.MONTHS);
+              onYearChange(year.getFullYear())
+              onStageChange(CalendarStage.MONTHS)
             }}
           />
         )}
@@ -124,14 +131,61 @@ const App = () => {
           <Decades
             decades={decades}
             onClick={(_event, year) => {
-              onDecadeChange(year.getFullYear());
-              onStageChange(CalendarStage.YEARS);
+              onDecadeChange(year.getFullYear())
+              onStageChange(CalendarStage.YEARS)
             }}
           />
         )}
       </div>
-    </div>
-  );
-};
 
-export default App;
+      <div className='flex flex-col gap-y-3 items-center w-full max-w-[480px]'>
+        <div className='flex justify-center w-full gap-x-2'>
+          <button
+            onClick={() => {
+              const nextDate = getWeek(date)
+              onWeekChange(nextDate - 1)
+            }}
+          >
+            {'<'}
+          </button>
+          <span>
+            {format(date, 'yyyy-MM') +
+              ' ' +
+              'Week ' +
+              String(DateLibs.getWeekNumber(date)).padStart(2, '0')}
+          </span>
+          <button
+            onClick={() => {
+              const nextDate = getWeek(date)
+              onWeekChange(nextDate + 1)
+            }}
+          >
+            {'>'}
+          </button>
+        </div>
+        <div className='flex justify-center w-full gap-x-2'>
+          {week.map((day) => {
+            const text = format(day, 'iii', { locale: ko })
+            return (
+              <div key={text} className='flex justify-center w-full'>
+                <span>{text}</span>
+              </div>
+            )
+          })}
+        </div>
+        <div className='flex justify-center w-full gap-x-2'>
+          {week.map((day) => {
+            const text = format(day, 'dd')
+            return (
+              <div className='flex justify-center w-full' key={text}>
+                <span>{text}</span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default App

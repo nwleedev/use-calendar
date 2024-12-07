@@ -4,7 +4,7 @@
   "scripts": {
     "install:package": "pnpm --filter ./packages install",
     "install:app": "pnpm --filter ./app install",
-    "dev:app": "pnpm --filter ./app dev",
+    "dev:app": "pnpm --filter ./app/example dev",
     "build:package": "pnpm --filter ./packages/* build",
     "preinstall": "npx only-allow pnpm",
     "changeset": "changeset",
